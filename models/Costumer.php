@@ -46,4 +46,11 @@ class Costumer
         $query = "INSERT INTO costumer (name,password, email,cellphone) VALUES ('$name', '$password', '$email','$cellphone')";
         return mysqli_query($this->conn, $query);
     }
+
+    public function login($email, $password)
+    {
+        $query = "SELECT * FROM costumer WHERE email = '$email' AND password = '$password'";
+        $result = mysqli_query($this->conn, $query);
+        return mysqli_fetch_assoc($result);
+    }
 }

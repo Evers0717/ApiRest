@@ -12,6 +12,7 @@ require_once('controllers/ProviderController.php');
 require_once('controllers/ProductsController.php');
 require_once('controllers/CartController.php');
 require_once('controllers/OrderController.php');
+require_once('controllers/AdminController.php');
 
 
 
