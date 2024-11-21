@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteBase /apirest/
+RewriteRule ^(.*)$ index.php [QSA,L]
