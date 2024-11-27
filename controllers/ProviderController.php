@@ -72,4 +72,12 @@ class ProviderController
 
         echo json_encode($response);
     }
+
+    public function getAll()
+    {
+        $provider = new Provider($this->db->getConnection());
+        $result = $provider->getAll();
+
+        echo json_encode($result);
+    }
 }

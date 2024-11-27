@@ -52,15 +52,25 @@ class CostumerController
     }
 
     public function login()
-    {
-        $data = json_decode(file_get_contents("php://input"), true);
+{
+    $data = json_decode(file_get_contents("php://input"), true);
 
-        $costumer = new Costumer($this->db->getConnection());
-        $result = $costumer->login($data['email'], $data['password']);
-        if ($result) {
-            echo json_encode(["message" => "Login successful"]);
-        } else {
-            echo json_encode(["message" => "Login failed"]);
-        }
+    $costumer = new Costumer($this->db->getConnection());
+    $result = $costumer->login($data['email'], $data['password']);
+    
+    if ($result) {
+        echo json_encode([
+            "success" => true,
+            "message" => "Login successful",
+            "id" => $result['id'],        
+            "name" => $result['name'],    
+            "email" => $result['email']   
+        ]);
+    } else {
+        echo json_encode([
+            "success" => false,
+            "message" => "Login failed"
+        ]);
     }
+}
 }

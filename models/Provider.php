@@ -27,7 +27,6 @@ class Provider
         $query = "INSERT INTO provider (name,password, `desc`,email,cellphone) VALUES ('$name', '$password', '$desc','$email','$cellphone')";
         return mysqli_query($this->conn, $query);
     }
-
     public function login($email, $password)
     {
         $query = "SELECT * FROM provider WHERE email = '$email' AND password = '$password'";
@@ -38,5 +37,23 @@ class Provider
         }
 
         return mysqli_fetch_assoc($result);
+    }
+
+    public function getAll()
+    {
+        $query = "SELECT * FROM provider";
+        $result = mysqli_query($this->conn, $query);
+
+        if (!$result) {
+            die("Error en la consulta: " . mysqli_error($this->conn));
+        }
+
+        $providers = [];
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $providers[] = $row;
+        }
+
+        return $providers;
     }
 }

@@ -119,4 +119,14 @@ class Order
             "total" => $total
         ]);
     }
+
+    public function getCostumerOrders($idUser) {
+        $query = "SELECT * FROM `order` WHERE idUser = $idUser";
+        $result = mysqli_query($this->conn, $query);   
+        $orders = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $orders[] = $row;
+        }
+        return $orders;
+    }
 }

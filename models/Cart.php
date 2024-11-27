@@ -32,8 +32,43 @@ class Cart
 
     public function getByUser($user_id)
     {
-        $query = "SELECT * FROM cart WHERE user_id = $user_id";
-        $result = mysqli_query($this->conn, $query);
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+        $query = "
+        SELECT 
+            cart.idcart,
+            cart.user_id,
+            cart.product_id,
+            cart.quantity,
+            cart.created_at,
+            products.name AS product_name,
+            products.price AS product_price,
+            products.image_url AS product_image
+        FROM 
+            cart
+        INNER JOIN 
+            products 
+        ON 
+            cart.product_id = products.idProducts
+        WHERE 
+            cart.user_id = ?";
+
+        if ($stmt = $this->conn->prepare($query)) {
+
+            $stmt->bind_param("i", $user_id);
+
+            $stmt->execute();
+
+
+            $result = $stmt->get_result();
+            $cartItems = $result->fetch_all(MYSQLI_ASSOC);
+
+
+            $stmt->close();
+
+            return $cartItems;
+        } else {
+
+            return ["error" => "Error al ejecutar la consulta"];
+        }
     }
 }

@@ -16,4 +16,12 @@ class OrderController
         $order = new Order($this->db->getConnection());
         $order->create($idUser);
     }
+
+    public function getCostumerOrders($idUser)
+    {
+        $order = new Order($this->db->getConnection());
+        $order = $order->getCostumerOrders($idUser);    
+        echo json_encode($order);
+    }
+    
 }

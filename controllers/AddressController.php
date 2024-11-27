@@ -48,4 +48,24 @@ class AddressController
             echo json_encode(["message" => "Invalid input data"]);
         }
     }
+
+    public function makeActive()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+    
+        if (!isset($data['address_id']) || !isset($data['user_id'])) {
+            echo json_encode(["message" => "Invalid input data"]);
+            return;
+        }
+    
+        $address_id = $data['address_id'];
+        $user_id = $data['user_id'];
+        $address = new Address($this->db->getConnection());
+        $result = $address->makeActive($address_id, $user_id);
+        if ($result) {
+            echo json_encode(["message" => "Address for user {$user_id} updated successfully"]);
+        } else {
+            echo json_encode(["message" => "Failed to update address for user {$user_id}"]);
+        }
+    }
 }

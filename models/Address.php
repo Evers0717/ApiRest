@@ -59,4 +59,14 @@ class Address
                   VALUES ('$user_id', '$name_address', '$city', '$country', '$isActive')";
         return mysqli_query($this->conn, $query);
     }
+
+    public function makeActive($address_id, $user_id)
+    {
+        $query = "UPDATE adress SET isActive = 0 WHERE user_id = $user_id";
+        mysqli_query($this->conn, $query);
+
+        $query = "UPDATE adress SET isActive = 1 WHERE idAdress = $address_id";
+        return mysqli_query($this->conn, $query);
+
+    }
 }
