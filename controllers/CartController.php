@@ -25,6 +25,19 @@ class CartController
         }
     }
 
+    public function update()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        $cart = new Cart($this->db->getConnection());
+        $result = $cart->update($data['user_id'], $data['product_id'], $data['quantity']);
+        if ($result) {
+            echo json_encode(["message" => "Cart updated successfully"]);
+        } else {
+            echo json_encode(["message" => "Failed to update cart"]);
+        }
+    }
+
     public function delete()
     {
         $data = json_decode(file_get_contents("php://input"), true);

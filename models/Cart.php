@@ -30,6 +30,12 @@ class Cart
         return mysqli_query($this->conn, $query);
     }
 
+    public function update ($user_id, $product_id, $quantity)
+    {
+        $query = "UPDATE cart SET quantity = $quantity WHERE user_id = $user_id AND product_id = $product_id";
+        return mysqli_query($this->conn, $query);
+    }
+
     public function getByUser($user_id)
     {
 

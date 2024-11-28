@@ -22,7 +22,7 @@ function sendJsonResponse($statusCode, $data)
 }
 
 
-$basePath = 'apirest';
+$basePath = 'ApiRest';
 
 
 $requestUri = explode('/', trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
