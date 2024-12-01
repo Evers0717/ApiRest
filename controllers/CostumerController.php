@@ -73,4 +73,39 @@ class CostumerController
         ]);
     }
 }
+public function getByName($name)
+{
+    $costumer = new Costumer($this->db->getConnection());
+    $result = $costumer->getByName($name);
+
+    if ($result) {
+        echo json_encode($result);
+    } else {
+        echo json_encode(["message" => "Costumer not found"]);
+    }
+}
+public function selectById($id)
+{
+    $costumer = new Costumer($this->db->getConnection());
+    $result = $costumer->getById($id);
+
+    if ($result) {
+        echo json_encode($result);
+    } else {
+        echo json_encode(["message" => "Costumer not found"]);
+    }
+}
+public function update()
+{
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $costumer = new Costumer($this->db->getConnection());
+    $result = $costumer->update($data['id'], $data['name'], $data['password'], $data['email'], $data['cellphone']);
+
+    if ($result) {
+        echo json_encode(["message" => "Costumer updated successfully"]);
+    } else {
+        echo json_encode(["message" => "Failed to update costumer"]);
+    }
+}
 }

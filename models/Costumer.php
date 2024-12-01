@@ -40,7 +40,18 @@ class Costumer
         return mysqli_fetch_assoc($result);
     }
 
+public function getByName($name)
+    {
+        $query = "SELECT * FROM costumer WHERE name LIKE '%$name%'";
+        $result = mysqli_query($this->conn, $query);
 
+        $costumers = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $costumers[] = $row;
+        }
+
+        return $costumers;
+    }
     public function create($name, $password, $email, $cellphone)
     {
         $query = "INSERT INTO costumer (name,password, email,cellphone) VALUES ('$name', '$password', '$email','$cellphone')";
