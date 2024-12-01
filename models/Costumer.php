@@ -52,6 +52,14 @@ public function getByName($name)
 
         return $costumers;
     }
+
+    public function update ($id, $name, $password, $email, $cellphone)
+    {
+        $query = "UPDATE costumer SET name = '$name', email = '$email', password = '$password', cellphone = '$cellphone' WHERE id = $id";
+        return mysqli_query($this->conn, $query);
+    }
+
+
     public function create($name, $password, $email, $cellphone)
     {
         $query = "INSERT INTO costumer (name,password, email,cellphone) VALUES ('$name', '$password', '$email','$cellphone')";
