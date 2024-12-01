@@ -102,6 +102,14 @@ class Order
                 echo json_encode(["message" => "Error al registrar el producto con ID $productId en la orden."]);
                 return;
             }
+
+            $queryProduct = "UPDATE products SET stock = stock - $quantity WHERE idProducts = $productId";
+            $resultProduct = mysqli_query($this->conn, $queryProduct);
+
+            if (!$resultProduct) {
+                echo json_encode(["message" => "Error al actualizar el stock del producto con ID $productId."]);
+                return;
+            }
         }
 
         $queryEmptyCart = "DELETE FROM cart WHERE user_id = $idUser";
@@ -120,9 +128,10 @@ class Order
         ]);
     }
 
-    public function getCostumerOrders($idUser) {
+    public function getCostumerOrders($idUser)
+    {
         $query = "SELECT * FROM `order` WHERE idUser = $idUser";
-        $result = mysqli_query($this->conn, $query);   
+        $result = mysqli_query($this->conn, $query);
         $orders = [];
         while ($row = mysqli_fetch_assoc($result)) {
             $orders[] = $row;

@@ -145,4 +145,11 @@ class ProductsController
         $products = $products->getByCategoryIndex($categoryId);
         echo json_encode($products);
     }
+
+    public function search($search)
+    {
+        $products = new Products($this->db->getConnection());
+        $products = $products->search($search);
+        echo json_encode($products);
+    }
 }

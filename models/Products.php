@@ -46,7 +46,7 @@ class Products
 
     public function getById($id)
     {
-        $query = "SELECT * FROM products WHERE id = $id";
+        $query = "SELECT * FROM products WHERE idProducts = $id";
         $result = mysqli_query($this->conn, $query);
         return mysqli_fetch_assoc($result);
     }
@@ -98,6 +98,23 @@ class Products
     public function getByCategoryIndex($categoryId)
     {
         $query = "SELECT * FROM products WHERE categoryId = $categoryId ORDER BY RAND() LIMIT 4";
+        $result = mysqli_query($this->conn, $query);
+        if (!$result) {
+
+            die("Error en la consulta: " . mysqli_error($this->conn));
+        }
+
+        $products = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $products[] = $row;
+        }
+
+        return $products;
+    }
+
+    public function search($search)
+    {
+        $query = "SELECT * FROM products WHERE name LIKE '%$search%'";
         $result = mysqli_query($this->conn, $query);
         if (!$result) {
 
