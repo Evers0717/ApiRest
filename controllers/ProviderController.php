@@ -15,15 +15,14 @@ class ProviderController
     {
         $data = json_decode(file_get_contents("php://input"), true);
 
-        if (isset($data['name']) && isset($data['email']) && isset($data['cellphone']) && isset($data['password']) && isset($data['desc'])) {
+        if (isset($data['name']) && isset($data['cellphone']) && isset($data['password']) && isset($data['desc'])) {
             $name = $data['name'];
             $password = $data['password'];
             $desc = $data['desc'];
-            $email = $data['email'];
             $cellphone = $data['cellphone'];
 
             $provider = new Provider($this->db->getConnection());
-            $result = $provider->create($name, $password, $desc, $email, $cellphone);
+            $result = $provider->create($name, $password, $desc, $cellphone);
 
             if ($result) {
                 echo json_encode(["message" => "Provider created successfully"]);
@@ -46,31 +45,25 @@ class ProviderController
             $provider = new Provider($this->db->getConnection());
             $result = $provider->login($email, $password);
 
-
             if ($result) {
-
-                $response = [
+                echo json_encode([
                     "success" => true,
                     "message" => "Login successful",
-                    "data" => $result
-                ];
+                    "id" => $result['idProvider'],
+                    "name" => $result['name'],
+                    "email" => $result['email']
+                ]);
             } else {
-
-                $response = [
+                echo json_encode([
                     "success" => false,
-                    "message" => "Invalid email or password"
-                ];
+                    "message" => "Login failed"
+                ]);
             }
-        } else {
 
-            $response = [
-                "success" => false,
-                "message" => "Invalid input data"
-            ];
         }
 
 
-        echo json_encode($response);
+
     }
 
     public function getAll()
@@ -79,5 +72,37 @@ class ProviderController
         $result = $provider->getAll();
 
         echo json_encode($result);
+    }
+
+    public function getById($id)
+    {
+        $provider = new Provider($this->db->getConnection());
+        $result = $provider->getById($id);
+
+        echo json_encode($result);
+    }
+
+    public function update()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (isset($data['idProvider']) && isset($data['name']) && isset($data['cellphone']) && isset($data['password']) && isset($data['desc'])) {
+            $id = $data['idProvider'];
+            $name = $data['name'];
+            $password = $data['password'];
+            $desc = $data['desc'];
+            $cellphone = $data['cellphone'];
+
+            $provider = new Provider($this->db->getConnection());
+            $result = $provider->update($id, $name, $password, $desc, $cellphone);
+
+            if ($result) {
+                echo json_encode(["message" => "Provider updated successfully"]);
+            } else {
+                echo json_encode(["message" => "Failed to update provider"]);
+            }
+        } else {
+            echo json_encode(["message" => "Invalid input data"]);
+        }
     }
 }

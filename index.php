@@ -12,7 +12,7 @@ require_once('controllers/ProductsController.php');
 require_once('controllers/CartController.php');
 require_once('controllers/OrderController.php');
 require_once('controllers/AdminController.php');
-
+require_once('controllers/OrderDetailsController.php');
 function sendJsonResponse($statusCode, $data)
 {
     http_response_code($statusCode);

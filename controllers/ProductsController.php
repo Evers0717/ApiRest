@@ -17,6 +17,13 @@ class ProductsController
         echo json_encode($products);
     }
 
+    public function getAllProducts()
+    {
+        $products = new Products($this->db->getConnection());
+        $products = $products->getAllProducts();
+        echo json_encode($products);
+    }
+
     public function getById($id)
     {
         $products = new Products($this->db->getConnection());

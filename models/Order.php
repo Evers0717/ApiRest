@@ -76,7 +76,7 @@ class Order
         $state = 'Pendiente';
 
 
-        $queryOrder = "INSERT INTO `order` (idUser, dateOrder, total, state, address) 
+        $queryOrder = "INSERT INTO orders (idUser, dateOrder, total, state, address) 
                    VALUES ($idUser, '$dateOrder', $total, '$state', $idAddress)";
         $resultOrder = mysqli_query($this->conn, $queryOrder);
 
@@ -93,9 +93,10 @@ class Order
             $quantity = $orderProduct['quantity'];
             $price = $orderProduct['price'];
             $subtotal = $price * $quantity;
+            $boughtdate = date('Y-m-d H:i:s');
 
-            $queryOrderProduct = "INSERT INTO orderdetails (orderId, productId, quantity, unitPrice,subtotal) 
-                              VALUES ($orderId, $productId, $quantity, $price, $subtotal)";
+            $queryOrderProduct = "INSERT INTO orderdetails (orderId, productId, quantity, unitPrice,subtotal,boughtdate) 
+                              VALUES ($orderId, $productId, $quantity, $price, $subtotal, '$boughtdate')";
             $resultOrderProduct = mysqli_query($this->conn, $queryOrderProduct);
 
             if (!$resultOrderProduct) {
@@ -130,7 +131,7 @@ class Order
 
     public function getCostumerOrders($idUser)
     {
-        $query = "SELECT * FROM `order` WHERE idUser = $idUser";
+        $query = "SELECT * FROM orders WHERE idUser = $idUser";
         $result = mysqli_query($this->conn, $query);
         $orders = [];
         while ($row = mysqli_fetch_assoc($result)) {

@@ -22,8 +22,9 @@ class Provider
     }
 
 
-    public function create($name, $password, $desc, $email, $cellphone)
+    public function create($name, $password, $desc, $cellphone)
     {
+        $email = $name . "Provedor@gmail.com";
         $query = "INSERT INTO provider (name,password, `desc`,email,cellphone) VALUES ('$name', '$password', '$desc','$email','$cellphone')";
         return mysqli_query($this->conn, $query);
     }
@@ -31,10 +32,6 @@ class Provider
     {
         $query = "SELECT * FROM provider WHERE email = '$email' AND password = '$password'";
         $result = mysqli_query($this->conn, $query);
-
-        if (!$result) {
-            die("Error en la consulta: " . mysqli_error($this->conn));
-        }
 
         return mysqli_fetch_assoc($result);
     }
@@ -55,5 +52,23 @@ class Provider
         }
 
         return $providers;
+    }
+
+    public function getById($id)
+    {
+        $query = "SELECT * FROM provider WHERE idProvider = $id";
+        $result = mysqli_query($this->conn, $query);
+
+        if (!$result) {
+            die("Error en la consulta: " . mysqli_error($this->conn));
+        }
+
+        return mysqli_fetch_assoc($result);
+    }
+
+    public function update($id, $name, $password, $desc, $cellphone)
+    {
+        $query = "UPDATE provider SET name = '$name', password = '$password', `desc` = '$desc', cellphone = '$cellphone' WHERE idProvider = $id";
+        return mysqli_query($this->conn, $query);
     }
 }

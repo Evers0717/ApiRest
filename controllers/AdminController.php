@@ -18,7 +18,12 @@ class AdminController
         $admin = new Admin($this->db->getConnection());
         $result = $admin->login($data['user'], $data['password']);
         if ($result) {
-            echo json_encode(["message" => "Login successful"]);
+            echo json_encode([
+            "success" => true,
+            "message" => "Login successful",
+            "id" => $result['idAdmin'],        
+            "user" => $result['user']
+        ]);
         } else {
             echo json_encode(["message" => "Login failed"]);
         }
